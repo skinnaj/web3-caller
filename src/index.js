@@ -10,6 +10,7 @@ class Web3CallerCommand extends Command {
     const infuraKey = flags.infuraKey
     const contractAddress = flags.contract
     const contractMethod = flags.method
+    const methodArgs = flags.methodArgs.split(',')
 
     const contract = JSON.parse(fs.readFileSync(abiFile))
 
@@ -17,11 +18,11 @@ class Web3CallerCommand extends Command {
       `https://${network}.infura.io/v3/${infuraKey}`
     )
 
-    const nftContract = new web3Instance.eth.Contract(contract.abi, contractAddress)
+    const nftContract = new web3Instance.eth.Contract(contract, contractAddress)
 
     let resp
     try {
-      resp = await nftContract.methods[contractMethod]().call()
+      resp = await nftContract.methods[contractMethod](...methodArgs).call()
     } catch (error) {
       this.log(error)
       return
@@ -46,7 +47,8 @@ Web3CallerCommand.flags = {
   network: flags.string({char: 'n', description: 'Ethereum network you are calling, e.g.: mainnet or rinkeby'}),
   infuraKey: flags.string({char: 'i', description: 'Your infura key'}),
   contract: flags.string({char: 'c', description: 'Contract address'}),
-  method: flags.string({char: 'm', description: 'The methof you want to call'}),
+  method: flags.string({char: 'm', description: 'The method you want to call'}),
+  methodArgs: flags.string({char: 'g', description: 'The method arguments, comma separated e.g.: "10,1"'}),
 }
 
 module.exports = Web3CallerCommand
