@@ -19,7 +19,7 @@ $ npm install -g web3-caller
 $ web3c COMMAND
 running command...
 $ web3c (-v|--version|version)
-web3-caller/0.0.2 darwin-x64 node-v12.16.3
+web3-caller/0.1.0 darwin-x64 node-v12.16.3
 $ web3c --help [COMMAND]
 USAGE
   $ web3c COMMAND
